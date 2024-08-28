@@ -1,0 +1,424 @@
+---
+title: 'Population Health Impacts Estimation: Preterm Birth and Black Carbon Exposure'
+author: "Kay Royo"
+date: "2024-08-27"
+output:
+  pdf_document: default
+  html_document: default
+---
+
+```{r, echo = F}
+knitr::opts_chunk$set(warning = FALSE, message = FALSE)
+```
+
+```{r, load libraries, echo = F}
+library(tidyverse)
+library(broom)
+library(knitr)
+library(boot)
+library(DT)
+library(summarytools)
+library(plotly)
+```
+
+## **Summary** 
+
+This project evaluates the relationship between air pollution, specifically black carbon, and preterm birth in urban areas of California, as well as differences in this relationship by race. The black carbon pollutant is a type of fine particulate matter that is released from diesel engines, wood heating, and wildfires that has been linked to adverse birth outcomes. 
+
+Using data from 5,000 birth certificates in San Jose and Oakland between 2013 and 2015, this analysis aims to estimate the potential impact of reducing black carbon exposure on the risk of preterm births. The black carbon levels in this data were measured at the block level through Google vehicles that monitored the pollutant over the study period. After consulting with environmental health experts, the analysis will control for potential confounders between black carbon levels and preterm births, including maternal age, maternal education, infant's sex assigned at birth, and gestational weight. In this analysis, the key measure of association is the risk difference, which will help determine the proportion of preterm births that could be prevented by reducing black carbon levels from their current level to below 0.20 milligrams grams per cubic meter. 
+
+
+The primary research question is: *Would reducing the levels of black carbon to below* $0.20 \ mg/m^3$ *reduce the risk of preterm birth? If so, approximately how many preterm births could potentially be prevented?*
+
+
+## **Counterfactual**
+
+Based on the research question above, the counterfactual question can be defined as: *What would be the effect on risk of preterm birth if the black carbon concentration was reduced to <0.20 milligrams per cubic meter for all residents of San Jose and Oakland, compared to the current level of black carbon?*
+
+Counterfactual scenario 1: Residents are exposed to less than $0.20 \ mg/m^3$ of black carbon. 
+
+Counterfactual scenario 2: Residents are exposed to current levels of black carbon. 
+
+
+## **Data Exploration**
+
+```{r, load dataset}
+# Load dataset
+air_pollution <- as.data.frame(read.csv("pollution_study.csv")) 
+```
+
+Variable definitions: 
+
+
+* `maternal_age`: mother's age in years 
+
+* `education`: mother's highest educational attainment (1 = some high school, 2 = high school graduate, 3 = some college, 4 = college graduate, 5 = master’s degree or higher) 
+
+* `infant_sex`: 0 = female, 1 = male
+
+* `birth_weight`: gestational weight in pounds
+
+* `preterm`: 0 = full-term (37+ weeks), 1 = pre-term (<37 weeks)
+
+* `race`: AI = American Indian or Alaska Native, AS = Asian, BL = Black or African American, NHPI = Native Hawaiian or other Pacific Islander, WH = White, HIS = Hispanic of any race
+
+* `black_carbon`: 0 = <$0.20 \ \mu g/m^3$, 1 = >$0.20 \ \mu g/m^3$
+
+```{r, examine dataset}
+# Data summary
+print(dfSummary(air_pollution, plain.ascii  = TRUE,  headings     = FALSE,
+          style        = "multiline", 
+          graph.col    = FALSE, 
+          valid.col    = FALSE, silent = TRUE, varnumbers = FALSE, display.labels = TRUE, footnote = ''), method = 'pander',headings = FALSE,     
+          bootstrap.css = FALSE)
+```
+
+
+```{r, cross tabulation}
+# Cross-tabulation: preterm births (outcome) and black carbon (exposure)
+with(air_pollution, 
+     print(ctable(x = factor(black_carbon), 
+                  y = factor(preterm), 
+                  prop     = 'n',
+                  chisq = TRUE,
+                  OR    = TRUE,
+                  RR    = TRUE,
+                  totals   = FALSE, 
+                  headings = FALSE),
+            method = "pander")
+)
+```
+Since the risk ratio is 1.12, it means that there is a positive association between preterm birth and black carbon exposure and the risk of preterm birth is higher in the group exposed to high levels of black carbon than the group exposed to low levels. 
+
+## **Marginal Standardization**
+
+### Model Fitting 
+
+In the fitted logistic regression model below, `preterm` is the binary outcome and `black_carbon` is the exposure. This regression model controls for `maternal_age`, `education`, `infant_sex` and `birth_weight`.
+
+```{r, fit regression}
+fit.pollution <- glm(preterm ~ black_carbon + maternal_age + factor(education) + infant_sex + birth_weight, data = air_pollution, family = 'binomial')
+
+summary(fit.pollution)
+
+tidy(fit.pollution, exponentiate=TRUE, conf.int=TRUE)
+```
+###  Pseudo-population
+
+```{r, create pseudo-populations}
+# 2 "pseudo-populations" based on counterfactual
+pollution_current <- air_pollution #%>% mutate(black_carbon = 1)
+pollution_low <-  air_pollution %>% mutate(black_carbon = 0)
+```
+
+
+```{r, examine confounders}
+# Examine confounder distributions in each "pseudo-population" 
+summary(pollution_current$maternal_age)
+summary(pollution_low$maternal_age)
+
+proportions(table(pollution_current$education))
+proportions(table(pollution_low$education))
+
+proportions(table(pollution_current$infant_sex))
+proportions(table(pollution_low$infant_sex))
+
+summary(pollution_current$birth_weight)
+summary(pollution_low$birth_weight)
+```
+
+```{r, obtain predictions for pseudo-populations}
+# Obtain predictions for each of these new "pseudo-populations"
+pred_pollution_current <- predict(fit.pollution, newdata=pollution_current, type="response")
+pred_pollution_low <- predict(fit.pollution, newdata=pollution_low, type="response")
+```
+
+### Average Risk
+
+
+```{r, calculate average risk}
+# Calculate average risk in each population
+p.poll.current <- mean(pred_pollution_current)
+p.poll.low <- mean(pred_pollution_low)
+```
+
+### Measure of association: Risk difference  
+
+```{r, estimate MOA}
+R.1 <- p.poll.low
+R.0 <- p.poll.current
+
+round(R.1 - R.0, 3) # Risk difference of low vs. current pollution
+```
+
+### CI estimation using bootstrapping
+
+```{r, estimate CIs}
+# Create indx object which counts the number of observations in your observed dataset
+indx<- nrow(air_pollution) 
+
+# Assign the "air_pollution" dataset to the object "data"
+data<- air_pollution
+
+# Define a function to carry out analysis on re-sampled version of dataset
+stan.RD <- function(data, indx){
+  data.samp <- data[indx,]
+  
+  # Fit model on resampled data:
+  fit.pollution.boot <- glm(preterm ~ black_carbon + maternal_age + 
+                              factor(education) + infant_sex + birth_weight,
+                    data = data, family = "binomial")
+  
+  # Copy resampled data and modify exposure under each scenario:
+  data.samp.current <- data.samp
+  data.samp.low <- data.samp |> mutate(black_carbon = 0)
+  
+  # Obtain predictions under each of these new "pseudo-populations"
+  pred.current <- predict(fit.pollution.boot, newdata=data.samp.current, type="response")
+  pred.low <- predict(fit.pollution.boot, newdata=data.samp.low, type="response")
+  
+  # Calculate overall risk in each population:
+  R.1 <- mean(pred.low)
+  R.0 <- mean(pred.current)
+  
+  # Estimate measures of association:
+  return(R.1 - R.0) # standardized RD
+}
+
+# Pass the function to the boot() command to generate samples of estimates
+n.cores <- parallel::detectCores() - 1 # use 1 less than you have
+set.seed(123) # Specifies where the random number generator starts
+boot.RD <- boot(data, stan.RD, R=10000, parallel="multicore", ncpus=n.cores) # Use this version for Mac or Linux
+# boot.RD <- boot(data, stan.RD, R=10000, parallel="snow", ncpus=n.cores) # Use this version for Windows
+# boot.RD <- boot(data, stan.RD, R=1000, parallel="multicore") # use this version for single-core
+
+boot.RD # Note original point estimate
+boot.ci(boot.RD, type="perc") # 95% percentile-based CI
+```
+
+```{r, save output}
+# Save output
+boot.RD.total <- boot.RD
+boot.RD.CI.total <- boot.ci(boot.RD, type="perc") 
+```
+
+### Interpretation 
+
+The estimated risk difference (RD) is -0.019 (95% CI: -0.0203 to -0.0182). Hence, reducing the levels of black carbon from current levels to <$0.20 \ mg/m^3$ would result in a reduction of approximately 2 fewer preterm births per 100 births. 
+
+
+## **Race and ethnicity**
+
+This section focused on answering the question: are there differences in the relationship between black carbon and preterm birth by racial group? Which groups would benefit most and least from reductions in black carbon? 
+
+```{r, create subpopulations}
+# Subset population by race and ethnicity
+ai_pop <- filter(air_pollution, race == "AI") # Filter to American Indian & Alaska Native population
+as_pop <- filter(air_pollution, race == "AS") # Filter to Asian population
+bl_pop <- filter(air_pollution, race == "BL") # Filter to Black population
+nhpi_pop <- filter(air_pollution, race == "NHPI") # Filter to Native Hawaiian and Pacific Islander population
+wh_pop <- filter(air_pollution, race == "WH") # Filter to White population
+his_pop <- filter(air_pollution, race == "HIS") # Filter to Black population
+```
+
+For this analysis, bootstrapping is directly used for each group to obtain the risk difference.
+
+### American Indian & Alaska Native
+
+```{r, aian population}
+# Create new indx and data object 
+indx<- nrow(ai_pop) 
+data <- ai_pop
+
+set.seed(123) # Specifies where the random number generator starts
+boot.RD <- boot(data, stan.RD, R=10000, parallel="multicore", ncpus=n.cores) # Use this version for Mac or Linux
+# boot.RD <- boot(data, stan.RD, R=10000, parallel="snow", ncpus=n.cores) # Use this version for Windows
+# boot.RD <- boot(data, stan.RD, R=1000, parallel="multicore") # use this version for single-core
+
+boot.RD # Note original point estimate
+boot.ci(boot.RD, type="perc") # 95% percentile-based CI
+
+# Save output to environment
+boot.RD.ai <- boot.RD
+boot.RD.CI.ai <- boot.ci(boot.RD, type="perc") 
+```
+
+### Asian
+
+```{r, asian population}
+# Create new indx and data object 
+indx<- nrow(as_pop)
+data <- as_pop
+
+set.seed(123) # Specifies where the random number generator starts
+boot.RD <- boot(data, stan.RD, R=10000, parallel="multicore", ncpus=n.cores) # Use this version for Mac or Linux
+# boot.RD <- boot(data, stan.RD, R=10000, parallel="snow", ncpus=n.cores) # Use this version for Windows
+# boot.RD <- boot(data, stan.RD, R=1000, parallel="multicore") # use this version for single-core
+
+boot.RD # Note original point estimate
+boot.ci(boot.RD, type="perc") # 95% percentile-based CI
+
+# Save output to environment
+boot.RD.as <- boot.RD
+boot.RD.CI.as <- boot.ci(boot.RD, type="perc") 
+```
+
+### Black or African American
+
+```{r, black population}
+# Create new indx and data object 
+indx<- nrow(bl_pop)
+data <- bl_pop
+
+set.seed(123) # Specifies where the random number generator starts
+boot.RD <- boot(data, stan.RD, R=10000, parallel="multicore", ncpus=n.cores) # Use this version for Mac or Linux
+# boot.RD <- boot(data, stan.RD, R=10000, parallel="snow", ncpus=n.cores) # Use this version for Windows
+# boot.RD <- boot(data, stan.RD, R=1000, parallel="multicore") # use this version for single-core
+
+boot.RD # Note original point estimate
+boot.ci(boot.RD, type="perc") # 95% percentile-based CI
+
+# Save output to environment
+boot.RD.bl <- boot.RD
+boot.RD.CI.bl <- boot.ci(boot.RD, type="perc") 
+```
+
+### Native Hawaiian & Pacific Islander
+
+```{r, nhpi population}
+# Create new indx and data object 
+indx<- nrow(nhpi_pop)
+data <- nhpi_pop
+
+set.seed(123) # Specifies where the random number generator starts
+boot.RD <- boot(data, stan.RD, R=10000, parallel="multicore", ncpus=n.cores) # Use this version for Mac or Linux
+# boot.RD <- boot(data, stan.RD, R=10000, parallel="snow", ncpus=n.cores) # Use this version for Windows
+# boot.RD <- boot(data, stan.RD, R=1000, parallel="multicore") # use this version for single-core
+
+boot.RD # Note original point estimate
+boot.ci(boot.RD, type="perc") # 95% percentile-based CI
+
+# Save output to environment
+boot.RD.nhpi <- boot.RD
+boot.RD.CI.nhpi <- boot.ci(boot.RD, type="perc")
+```
+
+### White 
+
+```{r, white population}
+# Create new indx and data object 
+indx<- nrow(wh_pop)
+data <- wh_pop
+
+set.seed(123) # Specifies where the random number generator starts
+boot.RD <- boot(data, stan.RD, R=10000, parallel="multicore", ncpus=n.cores) # Use this version for Mac or Linux
+# boot.RD <- boot(data, stan.RD, R=10000, parallel="snow", ncpus=n.cores) # Use this version for Windows
+# boot.RD <- boot(data, stan.RD, R=1000, parallel="multicore") # use this version for single-core
+
+boot.RD # Note original point estimate
+boot.ci(boot.RD, type="perc") # 95% percentile-based CI
+
+# Save output to environment
+boot.RD.wh <- boot.RD
+boot.RD.CI.wh <- boot.ci(boot.RD, type="perc") 
+```
+
+### Hispanic
+
+```{r, hispanic population}
+# Create new indx and data object 
+indx<- nrow(his_pop)
+data <- his_pop
+
+set.seed(123) # Specifies where the random number generator starts
+boot.RD <- boot(data, stan.RD, R=10000, parallel="multicore", ncpus=n.cores) # Use this version for Mac or Linux
+# boot.RD <- boot(data, stan.RD, R=10000, parallel="snow", ncpus=n.cores) # Use this version for Windows
+# boot.RD <- boot(data, stan.RD, R=1000, parallel="multicore") # use this version for single-core
+
+boot.RD # Note original point estimate
+boot.ci(boot.RD, type="perc") # 95% percentile-based CI
+
+# Save output to environment
+boot.RD.his <- boot.RD
+boot.RD.CI.his <- boot.ci(boot.RD, type="perc") 
+```
+
+```{r, create dataframe with results}
+# Combine resuls into a table 
+race<- c("Total", "AIAN", "Asian", "Black", "NHPI", "White", "Hispanic")
+
+pop_size <- c(nrow(air_pollution), 
+              sum(air_pollution$race == "AI"), 
+              sum(air_pollution$race == "AS"),
+              sum(air_pollution$race == "BL"),
+              sum(air_pollution$race == "NHPI"),
+              sum(air_pollution$race == "WH"),
+              sum(air_pollution$race == "HIS"))
+
+
+rds <- c(boot.RD.total$t0, 
+         boot.RD.ai$t0,
+         boot.RD.as$t0,
+         boot.RD.bl$t0, 
+         boot.RD.nhpi$t0, 
+         boot.RD.wh$t0,
+         boot.RD.his$t0) 
+
+lower_ci <- c(boot.RD.CI.total$percent[,4], 
+              boot.RD.CI.ai$percent[,4], 
+              boot.RD.CI.as$percent[,4], 
+              boot.RD.CI.bl$percent[,4], 
+              boot.RD.CI.nhpi$percent[,4], 
+              boot.RD.CI.wh$percent[,4], 
+              boot.RD.CI.his$percent[,4]) 
+
+upper_ci <- c(boot.RD.CI.total$percent[,5], 
+              boot.RD.CI.ai$percent[,5], 
+              boot.RD.CI.as$percent[,5], 
+              boot.RD.CI.bl$percent[,5], 
+              boot.RD.CI.nhpi$percent[,5], 
+              boot.RD.CI.wh$percent[,5], 
+              boot.RD.CI.his$percent[,5])
+
+output_data <- data.frame(
+  race = race, 
+  pop_size = pop_size,
+  rds = rds,
+  lower_ci = lower_ci,
+  upper_ci= upper_ci)
+
+output_data$race <- factor(output_data$race, levels = race)
+output_data$rds <- round(output_data$rds, 4)
+output_data$lower_ci <- round(output_data$lower_ci, 4)
+output_data$upper_ci <- round(output_data$upper_ci, 4)
+
+output_data # view in R
+
+kable(output_data) # view as a printable table
+```
+
+### Data Visualization 
+
+Use the code below to visualize your results using ggplot()
+
+```{r, visualize results}
+
+# Create forest plot
+p <- ggplot(output_data, aes(x = rds, y = race)) +
+  geom_point() +
+  geom_errorbarh(aes(xmin = lower_ci, xmax = upper_ci)) +
+  labs(title = "RD Estimates by Race",
+       x = "Estimate (RD)", y = "Race") +
+  theme_minimal() +
+  theme(plot.title = element_text(hjust = 0.5)) +
+  coord_cartesian(xlim = c(-.06, 0.01)) + 
+    geom_vline(xintercept = 0, color = "blue")
+
+# Print or save the plot
+print(p)
+```
+
+
+### Interpretation 
+
+Based on the results shown above, there are differences in the relationship between black carbon exposure and preterm birth across racial groups, as reflected by the varying estimated risk differences. It appears that Amerian Indian/Alaska Natives would see the greatest reduction in the risk of preterm birth, specifically 4 fewer preterm births out of 100 births, if black carbon levels were reduced to <$0.20 \ mg/m^3$. Meanwhile, Asians would benefit least from the reductions in black carbon exposure (1 fewer preterm births out of 100 births). It is also important to note that the confidence intervals for all estimates do not include the null, which indicates that there is a protective effect of lowering black carbon among all race/ethnicity groups. Several factors could explain why certain racial groups are more or less affected by black carbon exposure, such as socioeconomic and environmental inequities, biological susceptibility, access to healthcare, and stress level.

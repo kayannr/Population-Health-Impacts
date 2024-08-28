@@ -1,0 +1,1117 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+%
+\documentclass[
+]{article}
+\usepackage{amsmath,amssymb}
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math} % this also loads fontspec
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+\usepackage{lmodern}
+\ifPDFTeX\else
+  % xetex/luatex font selection
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{xcolor}
+\usepackage[margin=1in]{geometry}
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{248,248,248}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{#1}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\BuiltInTok}[1]{#1}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{#1}}}
+\newcommand{\ExtensionTok}[1]{#1}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\ImportTok}[1]{#1}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\NormalTok}[1]{#1}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\RegionMarkerTok}[1]{#1}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\usepackage{longtable,booktabs,array}
+\usepackage{calc} % for calculating minipage widths
+% Correct order of tables after \paragraph or \subparagraph
+\usepackage{etoolbox}
+\makeatletter
+\patchcmd\longtable{\par}{\if@noskipsec\mbox{}\fi\par}{}{}
+\makeatother
+% Allow footnotes in longtable head/foot
+\IfFileExists{footnotehyper.sty}{\usepackage{footnotehyper}}{\usepackage{footnote}}
+\makesavenoteenv{longtable}
+\usepackage{graphicx}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+% Set default figure placement to htbp
+\makeatletter
+\def\fps@figure{htbp}
+\makeatother
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+\ifLuaTeX
+  \usepackage{selnolig}  % disable illegal ligatures
+\fi
+\usepackage{bookmark}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\urlstyle{same}
+\hypersetup{
+  pdftitle={Population Health Impacts Estimation: Preterm Birth and Black Carbon Exposure},
+  pdfauthor={Kay Royo},
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+
+\title{Population Health Impacts Estimation: Preterm Birth and Black
+Carbon Exposure}
+\author{Kay Royo}
+\date{2024-08-27}
+
+\begin{document}
+\maketitle
+
+\subsection{\texorpdfstring{\textbf{Summary}}{Summary}}\label{summary}
+
+This project evaluates the relationship between air pollution,
+specifically black carbon, and preterm birth in urban areas of
+California, as well as differences in this relationship by race. The
+black carbon pollutant is a type of fine particulate matter that is
+released from diesel engines, wood heating, and wildfires that has been
+linked to adverse birth outcomes.
+
+Using data from 5,000 birth certificates in San Jose and Oakland between
+2013 and 2015, this analysis aims to estimate the potential impact of
+reducing black carbon exposure on the risk of preterm births. The black
+carbon levels in this data were measured at the block level through
+Google vehicles that monitored the pollutant over the study period.
+After consulting with environmental health experts, the analysis will
+control for potential confounders between black carbon levels and
+preterm births, including maternal age, maternal education, infant's sex
+assigned at birth, and gestational weight. In this analysis, the key
+measure of association is the risk difference, which will help determine
+the proportion of preterm births that could be prevented by reducing
+black carbon levels from their current level to below 0.20 milligrams
+grams per cubic meter.
+
+The primary research question is: \emph{Would reducing the levels of
+black carbon to below} \(0.20 \ mg/m^3\) \emph{reduce the risk of
+preterm birth? If so, approximately how many preterm births could
+potentially be prevented?}
+
+\subsection{\texorpdfstring{\textbf{Counterfactual}}{Counterfactual}}\label{counterfactual}
+
+Based on the research question above, the counterfactual question can be
+defined as: \emph{What would be the effect on risk of preterm birth if
+the black carbon concentration was reduced to \textless0.20 milligrams
+per cubic meter for all residents of San Jose and Oakland, compared to
+the current level of black carbon?}
+
+Counterfactual scenario 1: Residents are exposed to less than
+\(0.20 \ mg/m^3\) of black carbon.
+
+Counterfactual scenario 2: Residents are exposed to current levels of
+black carbon.
+
+\subsection{\texorpdfstring{\textbf{Data
+Exploration}}{Data Exploration}}\label{data-exploration}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Load dataset}
+\NormalTok{air\_pollution }\OtherTok{\textless{}{-}} \FunctionTok{as.data.frame}\NormalTok{(}\FunctionTok{read.csv}\NormalTok{(}\StringTok{"pollution\_study.csv"}\NormalTok{)) }
+\end{Highlighting}
+\end{Shaded}
+
+Variable definitions:
+
+\begin{itemize}
+\item
+  \texttt{maternal\_age}: mother's age in years
+\item
+  \texttt{education}: mother's highest educational attainment (1 = some
+  high school, 2 = high school graduate, 3 = some college, 4 = college
+  graduate, 5 = master's degree or higher)
+\item
+  \texttt{infant\_sex}: 0 = female, 1 = male
+\item
+  \texttt{birth\_weight}: gestational weight in pounds
+\item
+  \texttt{preterm}: 0 = full-term (37+ weeks), 1 = pre-term (\textless37
+  weeks)
+\item
+  \texttt{race}: AI = American Indian or Alaska Native, AS = Asian, BL =
+  Black or African American, NHPI = Native Hawaiian or other Pacific
+  Islander, WH = White, HIS = Hispanic of any race
+\item
+  \texttt{black\_carbon}: 0 = \textless{}\(0.20 \ \mu g/m^3\), 1 =
+  \textgreater{}\(0.20 \ \mu g/m^3\)
+\end{itemize}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Data summary}
+\FunctionTok{print}\NormalTok{(}\FunctionTok{dfSummary}\NormalTok{(air\_pollution, }\AttributeTok{plain.ascii  =} \ConstantTok{TRUE}\NormalTok{,  }\AttributeTok{headings     =} \ConstantTok{FALSE}\NormalTok{,}
+          \AttributeTok{style        =} \StringTok{"multiline"}\NormalTok{, }
+          \AttributeTok{graph.col    =} \ConstantTok{FALSE}\NormalTok{, }
+          \AttributeTok{valid.col    =} \ConstantTok{FALSE}\NormalTok{, }\AttributeTok{silent =} \ConstantTok{TRUE}\NormalTok{, }\AttributeTok{varnumbers =} \ConstantTok{FALSE}\NormalTok{, }\AttributeTok{display.labels =} \ConstantTok{TRUE}\NormalTok{, }\AttributeTok{footnote =} \StringTok{\textquotesingle{}\textquotesingle{}}\NormalTok{), }\AttributeTok{method =} \StringTok{\textquotesingle{}pander\textquotesingle{}}\NormalTok{,}\AttributeTok{headings =} \ConstantTok{FALSE}\NormalTok{,     }
+          \AttributeTok{bootstrap.css =} \ConstantTok{FALSE}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## --------------------------------------------------------------------
+## Variable       Stats / Values         Freqs (% of Valid)   Missing  
+## -------------- ---------------------- -------------------- ---------
+## maternal_age   Mean (sd) : 27.5 (5)   34 distinct values   0        
+## [integer]      min < med < max:                            (0.0%)   
+##                12 < 27 < 45                                         
+##                IQR (CV) : 7 (0.2)                                   
+## 
+## education      Mean (sd) : 3 (1.3)    1 :  747 (14.9%)     0        
+## [integer]      min < med < max:       2 : 1053 (21.1%)     (0.0%)   
+##                1 < 3 < 5              3 : 1502 (30.0%)              
+##                IQR (CV) : 2 (0.4)     4 :  938 (18.8%)              
+##                                       5 :  760 (15.2%)              
+## 
+## infant_sex     Min  : 0               0 : 2543 (50.9%)     0        
+## [integer]      Mean : 0.5             1 : 2457 (49.1%)     (0.0%)   
+##                Max  : 1                                             
+## 
+## birth_weight   Mean (sd) : 7 (1)      65 distinct values   0        
+## [numeric]      min < med < max:                            (0.0%)   
+##                3.7 < 7 < 10.1                                       
+##                IQR (CV) : 1.4 (0.1)                                 
+## 
+## race           1. AI                   106 ( 2.1%)         0        
+## [character]    2. AS                   883 (17.7%)         (0.0%)   
+##                3. BL                   975 (19.5%)                  
+##                4. HIS                 1316 (26.3%)                  
+##                5. NHPI                 195 ( 3.9%)                  
+##                6. WH                  1525 (30.5%)                  
+## 
+## black_carbon   Min  : 0               0 : 4012 (80.2%)     0        
+## [integer]      Mean : 0.2             1 :  988 (19.8%)     (0.0%)   
+##                Max  : 1                                             
+## 
+## preterm        Min  : 0               0 : 4477 (89.5%)     0        
+## [integer]      Mean : 0.1             1 :  523 (10.5%)     (0.0%)   
+##                Max  : 1                                             
+## --------------------------------------------------------------------
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Cross{-}tabulation: preterm births (outcome) and black carbon (exposure)}
+\FunctionTok{with}\NormalTok{(air\_pollution, }
+     \FunctionTok{print}\NormalTok{(}\FunctionTok{ctable}\NormalTok{(}\AttributeTok{x =} \FunctionTok{factor}\NormalTok{(black\_carbon), }
+                  \AttributeTok{y =} \FunctionTok{factor}\NormalTok{(preterm), }
+                  \AttributeTok{prop     =} \StringTok{\textquotesingle{}n\textquotesingle{}}\NormalTok{,}
+                  \AttributeTok{chisq =} \ConstantTok{TRUE}\NormalTok{,}
+                  \AttributeTok{OR    =} \ConstantTok{TRUE}\NormalTok{,}
+                  \AttributeTok{RR    =} \ConstantTok{TRUE}\NormalTok{,}
+                  \AttributeTok{totals   =} \ConstantTok{FALSE}\NormalTok{, }
+                  \AttributeTok{headings =} \ConstantTok{FALSE}\NormalTok{),}
+            \AttributeTok{method =} \StringTok{"pander"}\NormalTok{)}
+\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## ---------------------- ----------------- ------ -----
+##                          factor(preterm)      0     1
+##   factor(black_carbon)                               
+##                      0                     3669   343
+##                      1                      808   180
+## ---------------------- ----------------- ------ -----
+## 
+## ----------------------------
+##  Chi.squared   df   p.value 
+## ------------- ---- ---------
+##    78.1093     1       0    
+## ----------------------------
+## 
+## ----------------------------------
+##  Odds Ratio   Lo - 95%   Hi - 95% 
+## ------------ ---------- ----------
+##     2.38        1.96       2.90   
+## ----------------------------------
+## 
+## ----------------------------------
+##  Risk Ratio   Lo - 95%   Hi - 95% 
+## ------------ ---------- ----------
+##     1.12        1.08       1.15   
+## ----------------------------------
+\end{verbatim}
+
+Since the risk ratio is 1.12, it means that there is a positive
+association between preterm birth and black carbon exposure and the risk
+of preterm birth is higher in the group exposed to high levels of black
+carbon than the group exposed to low levels.
+
+\subsection{\texorpdfstring{\textbf{Marginal
+Standardization}}{Marginal Standardization}}\label{marginal-standardization}
+
+\subsubsection{Model Fitting}\label{model-fitting}
+
+In the fitted logistic regression model below, \texttt{preterm} is the
+binary outcome and \texttt{black\_carbon} is the exposure. This
+regression model controls for \texttt{maternal\_age},
+\texttt{education}, \texttt{infant\_sex} and \texttt{birth\_weight}.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{fit.pollution }\OtherTok{\textless{}{-}} \FunctionTok{glm}\NormalTok{(preterm }\SpecialCharTok{\textasciitilde{}}\NormalTok{ black\_carbon }\SpecialCharTok{+}\NormalTok{ maternal\_age }\SpecialCharTok{+} \FunctionTok{factor}\NormalTok{(education) }\SpecialCharTok{+}\NormalTok{ infant\_sex }\SpecialCharTok{+}\NormalTok{ birth\_weight, }\AttributeTok{data =}\NormalTok{ air\_pollution, }\AttributeTok{family =} \StringTok{\textquotesingle{}binomial\textquotesingle{}}\NormalTok{)}
+
+\FunctionTok{summary}\NormalTok{(fit.pollution)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## Call:
+## glm(formula = preterm ~ black_carbon + maternal_age + factor(education) + 
+##     infant_sex + birth_weight, family = "binomial", data = air_pollution)
+## 
+## Coefficients:
+##                     Estimate Std. Error z value Pr(>|z|)    
+## (Intercept)        -2.133956   0.438139  -4.871 1.11e-06 ***
+## black_carbon        0.877808   0.100136   8.766  < 2e-16 ***
+## maternal_age       -0.006700   0.009419  -0.711   0.4769    
+## factor(education)2  0.119054   0.162732   0.732   0.4644    
+## factor(education)3  0.151288   0.152087   0.995   0.3199    
+## factor(education)4  0.098803   0.167249   0.591   0.5547    
+## factor(education)5  0.273037   0.170746   1.599   0.1098    
+## infant_sex         -0.212143   0.093870  -2.260   0.0238 *  
+## birth_weight       -0.012435   0.046453  -0.268   0.7889    
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## (Dispersion parameter for binomial family taken to be 1)
+## 
+##     Null deviance: 3350.7  on 4999  degrees of freedom
+## Residual deviance: 3272.6  on 4991  degrees of freedom
+## AIC: 3290.6
+## 
+## Number of Fisher Scoring iterations: 5
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{tidy}\NormalTok{(fit.pollution, }\AttributeTok{exponentiate=}\ConstantTok{TRUE}\NormalTok{, }\AttributeTok{conf.int=}\ConstantTok{TRUE}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## # A tibble: 9 x 7
+##   term               estimate std.error statistic  p.value conf.low conf.high
+##   <chr>                 <dbl>     <dbl>     <dbl>    <dbl>    <dbl>     <dbl>
+## 1 (Intercept)           0.118   0.438      -4.87  1.11e- 6   0.0500     0.278
+## 2 black_carbon          2.41    0.100       8.77  1.85e-18   1.97       2.92 
+## 3 maternal_age          0.993   0.00942    -0.711 4.77e- 1   0.975      1.01 
+## 4 factor(education)2    1.13    0.163       0.732 4.64e- 1   0.821      1.55 
+## 5 factor(education)3    1.16    0.152       0.995 3.20e- 1   0.867      1.58 
+## 6 factor(education)4    1.10    0.167       0.591 5.55e- 1   0.797      1.54 
+## 7 factor(education)5    1.31    0.171       1.60  1.10e- 1   0.941      1.84 
+## 8 infant_sex            0.809   0.0939     -2.26  2.38e- 2   0.673      0.972
+## 9 birth_weight          0.988   0.0465     -0.268 7.89e- 1   0.902      1.08
+\end{verbatim}
+
+\subsubsection{Pseudo-population}\label{pseudo-population}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# 2 "pseudo{-}populations" based on counterfactual}
+\NormalTok{pollution\_current }\OtherTok{\textless{}{-}}\NormalTok{ air\_pollution }\CommentTok{\#\%\textgreater{}\% mutate(black\_carbon = 1)}
+\NormalTok{pollution\_low }\OtherTok{\textless{}{-}}\NormalTok{  air\_pollution }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{mutate}\NormalTok{(}\AttributeTok{black\_carbon =} \DecValTok{0}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Examine confounder distributions in each "pseudo{-}population" }
+\FunctionTok{summary}\NormalTok{(pollution\_current}\SpecialCharTok{$}\NormalTok{maternal\_age)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+##    12.0    24.0    27.0    27.5    31.0    45.0
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{summary}\NormalTok{(pollution\_low}\SpecialCharTok{$}\NormalTok{maternal\_age)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+##    12.0    24.0    27.0    27.5    31.0    45.0
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{proportions}\NormalTok{(}\FunctionTok{table}\NormalTok{(pollution\_current}\SpecialCharTok{$}\NormalTok{education))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+##      1      2      3      4      5 
+## 0.1494 0.2106 0.3004 0.1876 0.1520
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{proportions}\NormalTok{(}\FunctionTok{table}\NormalTok{(pollution\_low}\SpecialCharTok{$}\NormalTok{education))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+##      1      2      3      4      5 
+## 0.1494 0.2106 0.3004 0.1876 0.1520
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{proportions}\NormalTok{(}\FunctionTok{table}\NormalTok{(pollution\_current}\SpecialCharTok{$}\NormalTok{infant\_sex))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+##      0      1 
+## 0.5086 0.4914
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{proportions}\NormalTok{(}\FunctionTok{table}\NormalTok{(pollution\_low}\SpecialCharTok{$}\NormalTok{infant\_sex))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+##      0      1 
+## 0.5086 0.4914
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{summary}\NormalTok{(pollution\_current}\SpecialCharTok{$}\NormalTok{birth\_weight)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+##   3.700   6.300   7.000   7.008   7.700  10.100
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{summary}\NormalTok{(pollution\_low}\SpecialCharTok{$}\NormalTok{birth\_weight)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+##   3.700   6.300   7.000   7.008   7.700  10.100
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Obtain predictions for each of these new "pseudo{-}populations"}
+\NormalTok{pred\_pollution\_current }\OtherTok{\textless{}{-}} \FunctionTok{predict}\NormalTok{(fit.pollution, }\AttributeTok{newdata=}\NormalTok{pollution\_current, }\AttributeTok{type=}\StringTok{"response"}\NormalTok{)}
+\NormalTok{pred\_pollution\_low }\OtherTok{\textless{}{-}} \FunctionTok{predict}\NormalTok{(fit.pollution, }\AttributeTok{newdata=}\NormalTok{pollution\_low, }\AttributeTok{type=}\StringTok{"response"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\subsubsection{Average Risk}\label{average-risk}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Calculate average risk in each population}
+\NormalTok{p.poll.current }\OtherTok{\textless{}{-}} \FunctionTok{mean}\NormalTok{(pred\_pollution\_current)}
+\NormalTok{p.poll.low }\OtherTok{\textless{}{-}} \FunctionTok{mean}\NormalTok{(pred\_pollution\_low)}
+\end{Highlighting}
+\end{Shaded}
+
+\subsubsection{Measure of association: Risk
+difference}\label{measure-of-association-risk-difference}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{R}\FloatTok{.1} \OtherTok{\textless{}{-}}\NormalTok{ p.poll.low}
+\NormalTok{R}\FloatTok{.0} \OtherTok{\textless{}{-}}\NormalTok{ p.poll.current}
+
+\FunctionTok{round}\NormalTok{(R}\FloatTok{.1} \SpecialCharTok{{-}}\NormalTok{ R}\FloatTok{.0}\NormalTok{, }\DecValTok{3}\NormalTok{) }\CommentTok{\# Risk difference of low vs. current pollution}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] -0.019
+\end{verbatim}
+
+\subsubsection{CI estimation using
+bootstrapping}\label{ci-estimation-using-bootstrapping}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Create indx object which counts the number of observations in your observed dataset}
+\NormalTok{indx}\OtherTok{\textless{}{-}} \FunctionTok{nrow}\NormalTok{(air\_pollution) }
+
+\CommentTok{\# Assign the "air\_pollution" dataset to the object "data"}
+\NormalTok{data}\OtherTok{\textless{}{-}}\NormalTok{ air\_pollution}
+
+\CommentTok{\# Define a function to carry out analysis on re{-}sampled version of dataset}
+\NormalTok{stan.RD }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(data, indx)\{}
+\NormalTok{  data.samp }\OtherTok{\textless{}{-}}\NormalTok{ data[indx,]}
+  
+  \CommentTok{\# Fit model on resampled data:}
+\NormalTok{  fit.pollution.boot }\OtherTok{\textless{}{-}} \FunctionTok{glm}\NormalTok{(preterm }\SpecialCharTok{\textasciitilde{}}\NormalTok{ black\_carbon }\SpecialCharTok{+}\NormalTok{ maternal\_age }\SpecialCharTok{+} 
+                              \FunctionTok{factor}\NormalTok{(education) }\SpecialCharTok{+}\NormalTok{ infant\_sex }\SpecialCharTok{+}\NormalTok{ birth\_weight,}
+                    \AttributeTok{data =}\NormalTok{ data, }\AttributeTok{family =} \StringTok{"binomial"}\NormalTok{)}
+  
+  \CommentTok{\# Copy resampled data and modify exposure under each scenario:}
+\NormalTok{  data.samp.current }\OtherTok{\textless{}{-}}\NormalTok{ data.samp}
+\NormalTok{  data.samp.low }\OtherTok{\textless{}{-}}\NormalTok{ data.samp }\SpecialCharTok{|\textgreater{}} \FunctionTok{mutate}\NormalTok{(}\AttributeTok{black\_carbon =} \DecValTok{0}\NormalTok{)}
+  
+  \CommentTok{\# Obtain predictions under each of these new "pseudo{-}populations"}
+\NormalTok{  pred.current }\OtherTok{\textless{}{-}} \FunctionTok{predict}\NormalTok{(fit.pollution.boot, }\AttributeTok{newdata=}\NormalTok{data.samp.current, }\AttributeTok{type=}\StringTok{"response"}\NormalTok{)}
+\NormalTok{  pred.low }\OtherTok{\textless{}{-}} \FunctionTok{predict}\NormalTok{(fit.pollution.boot, }\AttributeTok{newdata=}\NormalTok{data.samp.low, }\AttributeTok{type=}\StringTok{"response"}\NormalTok{)}
+  
+  \CommentTok{\# Calculate overall risk in each population:}
+\NormalTok{  R}\FloatTok{.1} \OtherTok{\textless{}{-}} \FunctionTok{mean}\NormalTok{(pred.low)}
+\NormalTok{  R}\FloatTok{.0} \OtherTok{\textless{}{-}} \FunctionTok{mean}\NormalTok{(pred.current)}
+  
+  \CommentTok{\# Estimate measures of association:}
+  \FunctionTok{return}\NormalTok{(R}\FloatTok{.1} \SpecialCharTok{{-}}\NormalTok{ R}\FloatTok{.0}\NormalTok{) }\CommentTok{\# standardized RD}
+\NormalTok{\}}
+
+\CommentTok{\# Pass the function to the boot() command to generate samples of estimates}
+\NormalTok{n.cores }\OtherTok{\textless{}{-}}\NormalTok{ parallel}\SpecialCharTok{::}\FunctionTok{detectCores}\NormalTok{() }\SpecialCharTok{{-}} \DecValTok{1} \CommentTok{\# use 1 less than you have}
+\FunctionTok{set.seed}\NormalTok{(}\DecValTok{123}\NormalTok{) }\CommentTok{\# Specifies where the random number generator starts}
+\NormalTok{boot.RD }\OtherTok{\textless{}{-}} \FunctionTok{boot}\NormalTok{(data, stan.RD, }\AttributeTok{R=}\DecValTok{10000}\NormalTok{, }\AttributeTok{parallel=}\StringTok{"multicore"}\NormalTok{, }\AttributeTok{ncpus=}\NormalTok{n.cores) }\CommentTok{\# Use this version for Mac or Linux}
+\CommentTok{\# boot.RD \textless{}{-} boot(data, stan.RD, R=10000, parallel="snow", ncpus=n.cores) \# Use this version for Windows}
+\CommentTok{\# boot.RD \textless{}{-} boot(data, stan.RD, R=1000, parallel="multicore") \# use this version for single{-}core}
+
+\NormalTok{boot.RD }\CommentTok{\# Note original point estimate}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## ORDINARY NONPARAMETRIC BOOTSTRAP
+## 
+## 
+## Call:
+## boot(data = data, statistic = stan.RD, R = 10000, parallel = "multicore", 
+##     ncpus = n.cores)
+## 
+## 
+## Bootstrap Statistics :
+##        original       bias     std. error
+## t1* -0.01922618 2.997703e-06 0.0005474867
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{boot.ci}\NormalTok{(boot.RD, }\AttributeTok{type=}\StringTok{"perc"}\NormalTok{) }\CommentTok{\# 95\% percentile{-}based CI}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## BOOTSTRAP CONFIDENCE INTERVAL CALCULATIONS
+## Based on 10000 bootstrap replicates
+## 
+## CALL : 
+## boot.ci(boot.out = boot.RD, type = "perc")
+## 
+## Intervals : 
+## Level     Percentile     
+## 95%   (-0.0203, -0.0182 )  
+## Calculations and Intervals on Original Scale
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Save output}
+\NormalTok{boot.RD.total }\OtherTok{\textless{}{-}}\NormalTok{ boot.RD}
+\NormalTok{boot.RD.CI.total }\OtherTok{\textless{}{-}} \FunctionTok{boot.ci}\NormalTok{(boot.RD, }\AttributeTok{type=}\StringTok{"perc"}\NormalTok{) }
+\end{Highlighting}
+\end{Shaded}
+
+\subsubsection{Interpretation}\label{interpretation}
+
+The estimated risk difference (RD) is -0.019 (95\% CI: -0.0203 to
+-0.0182). Hence, reducing the levels of black carbon from current levels
+to \textless{}\(0.20 \ mg/m^3\) would result in a reduction of
+approximately 2 fewer preterm births per 100 births.
+
+\subsection{\texorpdfstring{\textbf{Race and
+ethnicity}}{Race and ethnicity}}\label{race-and-ethnicity}
+
+This section focused on answering the question: are there differences in
+the relationship between black carbon and preterm birth by racial group?
+Which groups would benefit most and least from reductions in black
+carbon?
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Subset population by race and ethnicity}
+\NormalTok{ai\_pop }\OtherTok{\textless{}{-}} \FunctionTok{filter}\NormalTok{(air\_pollution, race }\SpecialCharTok{==} \StringTok{"AI"}\NormalTok{) }\CommentTok{\# Filter to American Indian \& Alaska Native population}
+\NormalTok{as\_pop }\OtherTok{\textless{}{-}} \FunctionTok{filter}\NormalTok{(air\_pollution, race }\SpecialCharTok{==} \StringTok{"AS"}\NormalTok{) }\CommentTok{\# Filter to Asian population}
+\NormalTok{bl\_pop }\OtherTok{\textless{}{-}} \FunctionTok{filter}\NormalTok{(air\_pollution, race }\SpecialCharTok{==} \StringTok{"BL"}\NormalTok{) }\CommentTok{\# Filter to Black population}
+\NormalTok{nhpi\_pop }\OtherTok{\textless{}{-}} \FunctionTok{filter}\NormalTok{(air\_pollution, race }\SpecialCharTok{==} \StringTok{"NHPI"}\NormalTok{) }\CommentTok{\# Filter to Native Hawaiian and Pacific Islander population}
+\NormalTok{wh\_pop }\OtherTok{\textless{}{-}} \FunctionTok{filter}\NormalTok{(air\_pollution, race }\SpecialCharTok{==} \StringTok{"WH"}\NormalTok{) }\CommentTok{\# Filter to White population}
+\NormalTok{his\_pop }\OtherTok{\textless{}{-}} \FunctionTok{filter}\NormalTok{(air\_pollution, race }\SpecialCharTok{==} \StringTok{"HIS"}\NormalTok{) }\CommentTok{\# Filter to Black population}
+\end{Highlighting}
+\end{Shaded}
+
+For this analysis, bootstrapping is directly used for each group to
+obtain the risk difference.
+
+\subsubsection{American Indian \& Alaska
+Native}\label{american-indian-alaska-native}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Create new indx and data object }
+\NormalTok{indx}\OtherTok{\textless{}{-}} \FunctionTok{nrow}\NormalTok{(ai\_pop) }
+\NormalTok{data }\OtherTok{\textless{}{-}}\NormalTok{ ai\_pop}
+
+\FunctionTok{set.seed}\NormalTok{(}\DecValTok{123}\NormalTok{) }\CommentTok{\# Specifies where the random number generator starts}
+\NormalTok{boot.RD }\OtherTok{\textless{}{-}} \FunctionTok{boot}\NormalTok{(data, stan.RD, }\AttributeTok{R=}\DecValTok{10000}\NormalTok{, }\AttributeTok{parallel=}\StringTok{"multicore"}\NormalTok{, }\AttributeTok{ncpus=}\NormalTok{n.cores) }\CommentTok{\# Use this version for Mac or Linux}
+\CommentTok{\# boot.RD \textless{}{-} boot(data, stan.RD, R=10000, parallel="snow", ncpus=n.cores) \# Use this version for Windows}
+\CommentTok{\# boot.RD \textless{}{-} boot(data, stan.RD, R=1000, parallel="multicore") \# use this version for single{-}core}
+
+\NormalTok{boot.RD }\CommentTok{\# Note original point estimate}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## ORDINARY NONPARAMETRIC BOOTSTRAP
+## 
+## 
+## Call:
+## boot(data = data, statistic = stan.RD, R = 10000, parallel = "multicore", 
+##     ncpus = n.cores)
+## 
+## 
+## Bootstrap Statistics :
+##        original        bias    std. error
+## t1* -0.03552645 -1.451861e-05 0.007674062
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{boot.ci}\NormalTok{(boot.RD, }\AttributeTok{type=}\StringTok{"perc"}\NormalTok{) }\CommentTok{\# 95\% percentile{-}based CI}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## BOOTSTRAP CONFIDENCE INTERVAL CALCULATIONS
+## Based on 10000 bootstrap replicates
+## 
+## CALL : 
+## boot.ci(boot.out = boot.RD, type = "perc")
+## 
+## Intervals : 
+## Level     Percentile     
+## 95%   (-0.0513, -0.0214 )  
+## Calculations and Intervals on Original Scale
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Save output to environment}
+\NormalTok{boot.RD.ai }\OtherTok{\textless{}{-}}\NormalTok{ boot.RD}
+\NormalTok{boot.RD.CI.ai }\OtherTok{\textless{}{-}} \FunctionTok{boot.ci}\NormalTok{(boot.RD, }\AttributeTok{type=}\StringTok{"perc"}\NormalTok{) }
+\end{Highlighting}
+\end{Shaded}
+
+\subsubsection{Asian}\label{asian}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Create new indx and data object }
+\NormalTok{indx}\OtherTok{\textless{}{-}} \FunctionTok{nrow}\NormalTok{(as\_pop)}
+\NormalTok{data }\OtherTok{\textless{}{-}}\NormalTok{ as\_pop}
+
+\FunctionTok{set.seed}\NormalTok{(}\DecValTok{123}\NormalTok{) }\CommentTok{\# Specifies where the random number generator starts}
+\NormalTok{boot.RD }\OtherTok{\textless{}{-}} \FunctionTok{boot}\NormalTok{(data, stan.RD, }\AttributeTok{R=}\DecValTok{10000}\NormalTok{, }\AttributeTok{parallel=}\StringTok{"multicore"}\NormalTok{, }\AttributeTok{ncpus=}\NormalTok{n.cores) }\CommentTok{\# Use this version for Mac or Linux}
+\CommentTok{\# boot.RD \textless{}{-} boot(data, stan.RD, R=10000, parallel="snow", ncpus=n.cores) \# Use this version for Windows}
+\CommentTok{\# boot.RD \textless{}{-} boot(data, stan.RD, R=1000, parallel="multicore") \# use this version for single{-}core}
+
+\NormalTok{boot.RD }\CommentTok{\# Note original point estimate}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## ORDINARY NONPARAMETRIC BOOTSTRAP
+## 
+## 
+## Call:
+## boot(data = data, statistic = stan.RD, R = 10000, parallel = "multicore", 
+##     ncpus = n.cores)
+## 
+## 
+## Bootstrap Statistics :
+##         original        bias    std. error
+## t1* -0.008164627 -9.728905e-06 0.000681185
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{boot.ci}\NormalTok{(boot.RD, }\AttributeTok{type=}\StringTok{"perc"}\NormalTok{) }\CommentTok{\# 95\% percentile{-}based CI}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## BOOTSTRAP CONFIDENCE INTERVAL CALCULATIONS
+## Based on 10000 bootstrap replicates
+## 
+## CALL : 
+## boot.ci(boot.out = boot.RD, type = "perc")
+## 
+## Intervals : 
+## Level     Percentile     
+## 95%   (-0.0095, -0.0069 )  
+## Calculations and Intervals on Original Scale
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Save output to environment}
+\NormalTok{boot.RD.as }\OtherTok{\textless{}{-}}\NormalTok{ boot.RD}
+\NormalTok{boot.RD.CI.as }\OtherTok{\textless{}{-}} \FunctionTok{boot.ci}\NormalTok{(boot.RD, }\AttributeTok{type=}\StringTok{"perc"}\NormalTok{) }
+\end{Highlighting}
+\end{Shaded}
+
+\subsubsection{Black or African
+American}\label{black-or-african-american}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Create new indx and data object }
+\NormalTok{indx}\OtherTok{\textless{}{-}} \FunctionTok{nrow}\NormalTok{(bl\_pop)}
+\NormalTok{data }\OtherTok{\textless{}{-}}\NormalTok{ bl\_pop}
+
+\FunctionTok{set.seed}\NormalTok{(}\DecValTok{123}\NormalTok{) }\CommentTok{\# Specifies where the random number generator starts}
+\NormalTok{boot.RD }\OtherTok{\textless{}{-}} \FunctionTok{boot}\NormalTok{(data, stan.RD, }\AttributeTok{R=}\DecValTok{10000}\NormalTok{, }\AttributeTok{parallel=}\StringTok{"multicore"}\NormalTok{, }\AttributeTok{ncpus=}\NormalTok{n.cores) }\CommentTok{\# Use this version for Mac or Linux}
+\CommentTok{\# boot.RD \textless{}{-} boot(data, stan.RD, R=10000, parallel="snow", ncpus=n.cores) \# Use this version for Windows}
+\CommentTok{\# boot.RD \textless{}{-} boot(data, stan.RD, R=1000, parallel="multicore") \# use this version for single{-}core}
+
+\NormalTok{boot.RD }\CommentTok{\# Note original point estimate}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## ORDINARY NONPARAMETRIC BOOTSTRAP
+## 
+## 
+## Call:
+## boot(data = data, statistic = stan.RD, R = 10000, parallel = "multicore", 
+##     ncpus = n.cores)
+## 
+## 
+## Bootstrap Statistics :
+##        original       bias    std. error
+## t1* -0.02832898 1.478548e-05 0.001761338
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{boot.ci}\NormalTok{(boot.RD, }\AttributeTok{type=}\StringTok{"perc"}\NormalTok{) }\CommentTok{\# 95\% percentile{-}based CI}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## BOOTSTRAP CONFIDENCE INTERVAL CALCULATIONS
+## Based on 10000 bootstrap replicates
+## 
+## CALL : 
+## boot.ci(boot.out = boot.RD, type = "perc")
+## 
+## Intervals : 
+## Level     Percentile     
+## 95%   (-0.0318, -0.0249 )  
+## Calculations and Intervals on Original Scale
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Save output to environment}
+\NormalTok{boot.RD.bl }\OtherTok{\textless{}{-}}\NormalTok{ boot.RD}
+\NormalTok{boot.RD.CI.bl }\OtherTok{\textless{}{-}} \FunctionTok{boot.ci}\NormalTok{(boot.RD, }\AttributeTok{type=}\StringTok{"perc"}\NormalTok{) }
+\end{Highlighting}
+\end{Shaded}
+
+\subsubsection{Native Hawaiian \& Pacific
+Islander}\label{native-hawaiian-pacific-islander}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Create new indx and data object }
+\NormalTok{indx}\OtherTok{\textless{}{-}} \FunctionTok{nrow}\NormalTok{(nhpi\_pop)}
+\NormalTok{data }\OtherTok{\textless{}{-}}\NormalTok{ nhpi\_pop}
+
+\FunctionTok{set.seed}\NormalTok{(}\DecValTok{123}\NormalTok{) }\CommentTok{\# Specifies where the random number generator starts}
+\NormalTok{boot.RD }\OtherTok{\textless{}{-}} \FunctionTok{boot}\NormalTok{(data, stan.RD, }\AttributeTok{R=}\DecValTok{10000}\NormalTok{, }\AttributeTok{parallel=}\StringTok{"multicore"}\NormalTok{, }\AttributeTok{ncpus=}\NormalTok{n.cores) }\CommentTok{\# Use this version for Mac or Linux}
+\CommentTok{\# boot.RD \textless{}{-} boot(data, stan.RD, R=10000, parallel="snow", ncpus=n.cores) \# Use this version for Windows}
+\CommentTok{\# boot.RD \textless{}{-} boot(data, stan.RD, R=1000, parallel="multicore") \# use this version for single{-}core}
+
+\NormalTok{boot.RD }\CommentTok{\# Note original point estimate}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## ORDINARY NONPARAMETRIC BOOTSTRAP
+## 
+## 
+## Call:
+## boot(data = data, statistic = stan.RD, R = 10000, parallel = "multicore", 
+##     ncpus = n.cores)
+## 
+## 
+## Bootstrap Statistics :
+##        original       bias    std. error
+## t1* -0.01385388 2.314429e-05 0.001770317
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{boot.ci}\NormalTok{(boot.RD, }\AttributeTok{type=}\StringTok{"perc"}\NormalTok{) }\CommentTok{\# 95\% percentile{-}based CI}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## BOOTSTRAP CONFIDENCE INTERVAL CALCULATIONS
+## Based on 10000 bootstrap replicates
+## 
+## CALL : 
+## boot.ci(boot.out = boot.RD, type = "perc")
+## 
+## Intervals : 
+## Level     Percentile     
+## 95%   (-0.0173, -0.0104 )  
+## Calculations and Intervals on Original Scale
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Save output to environment}
+\NormalTok{boot.RD.nhpi }\OtherTok{\textless{}{-}}\NormalTok{ boot.RD}
+\NormalTok{boot.RD.CI.nhpi }\OtherTok{\textless{}{-}} \FunctionTok{boot.ci}\NormalTok{(boot.RD, }\AttributeTok{type=}\StringTok{"perc"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\subsubsection{White}\label{white}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Create new indx and data object }
+\NormalTok{indx}\OtherTok{\textless{}{-}} \FunctionTok{nrow}\NormalTok{(wh\_pop)}
+\NormalTok{data }\OtherTok{\textless{}{-}}\NormalTok{ wh\_pop}
+
+\FunctionTok{set.seed}\NormalTok{(}\DecValTok{123}\NormalTok{) }\CommentTok{\# Specifies where the random number generator starts}
+\NormalTok{boot.RD }\OtherTok{\textless{}{-}} \FunctionTok{boot}\NormalTok{(data, stan.RD, }\AttributeTok{R=}\DecValTok{10000}\NormalTok{, }\AttributeTok{parallel=}\StringTok{"multicore"}\NormalTok{, }\AttributeTok{ncpus=}\NormalTok{n.cores) }\CommentTok{\# Use this version for Mac or Linux}
+\CommentTok{\# boot.RD \textless{}{-} boot(data, stan.RD, R=10000, parallel="snow", ncpus=n.cores) \# Use this version for Windows}
+\CommentTok{\# boot.RD \textless{}{-} boot(data, stan.RD, R=1000, parallel="multicore") \# use this version for single{-}core}
+
+\NormalTok{boot.RD }\CommentTok{\# Note original point estimate}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## ORDINARY NONPARAMETRIC BOOTSTRAP
+## 
+## 
+## Call:
+## boot(data = data, statistic = stan.RD, R = 10000, parallel = "multicore", 
+##     ncpus = n.cores)
+## 
+## 
+## Bootstrap Statistics :
+##        original       bias     std. error
+## t1* -0.01192294 8.504453e-06 0.0007568935
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{boot.ci}\NormalTok{(boot.RD, }\AttributeTok{type=}\StringTok{"perc"}\NormalTok{) }\CommentTok{\# 95\% percentile{-}based CI}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## BOOTSTRAP CONFIDENCE INTERVAL CALCULATIONS
+## Based on 10000 bootstrap replicates
+## 
+## CALL : 
+## boot.ci(boot.out = boot.RD, type = "perc")
+## 
+## Intervals : 
+## Level     Percentile     
+## 95%   (-0.0134, -0.0105 )  
+## Calculations and Intervals on Original Scale
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Save output to environment}
+\NormalTok{boot.RD.wh }\OtherTok{\textless{}{-}}\NormalTok{ boot.RD}
+\NormalTok{boot.RD.CI.wh }\OtherTok{\textless{}{-}} \FunctionTok{boot.ci}\NormalTok{(boot.RD, }\AttributeTok{type=}\StringTok{"perc"}\NormalTok{) }
+\end{Highlighting}
+\end{Shaded}
+
+\subsubsection{Hispanic}\label{hispanic}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Create new indx and data object }
+\NormalTok{indx}\OtherTok{\textless{}{-}} \FunctionTok{nrow}\NormalTok{(his\_pop)}
+\NormalTok{data }\OtherTok{\textless{}{-}}\NormalTok{ his\_pop}
+
+\FunctionTok{set.seed}\NormalTok{(}\DecValTok{123}\NormalTok{) }\CommentTok{\# Specifies where the random number generator starts}
+\NormalTok{boot.RD }\OtherTok{\textless{}{-}} \FunctionTok{boot}\NormalTok{(data, stan.RD, }\AttributeTok{R=}\DecValTok{10000}\NormalTok{, }\AttributeTok{parallel=}\StringTok{"multicore"}\NormalTok{, }\AttributeTok{ncpus=}\NormalTok{n.cores) }\CommentTok{\# Use this version for Mac or Linux}
+\CommentTok{\# boot.RD \textless{}{-} boot(data, stan.RD, R=10000, parallel="snow", ncpus=n.cores) \# Use this version for Windows}
+\CommentTok{\# boot.RD \textless{}{-} boot(data, stan.RD, R=1000, parallel="multicore") \# use this version for single{-}core}
+
+\NormalTok{boot.RD }\CommentTok{\# Note original point estimate}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## ORDINARY NONPARAMETRIC BOOTSTRAP
+## 
+## 
+## Call:
+## boot(data = data, statistic = stan.RD, R = 10000, parallel = "multicore", 
+##     ncpus = n.cores)
+## 
+## 
+## Bootstrap Statistics :
+##        original       bias     std. error
+## t1* -0.02013414 1.066138e-05 0.0009286714
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{boot.ci}\NormalTok{(boot.RD, }\AttributeTok{type=}\StringTok{"perc"}\NormalTok{) }\CommentTok{\# 95\% percentile{-}based CI}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## BOOTSTRAP CONFIDENCE INTERVAL CALCULATIONS
+## Based on 10000 bootstrap replicates
+## 
+## CALL : 
+## boot.ci(boot.out = boot.RD, type = "perc")
+## 
+## Intervals : 
+## Level     Percentile     
+## 95%   (-0.0220, -0.0183 )  
+## Calculations and Intervals on Original Scale
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Save output to environment}
+\NormalTok{boot.RD.his }\OtherTok{\textless{}{-}}\NormalTok{ boot.RD}
+\NormalTok{boot.RD.CI.his }\OtherTok{\textless{}{-}} \FunctionTok{boot.ci}\NormalTok{(boot.RD, }\AttributeTok{type=}\StringTok{"perc"}\NormalTok{) }
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Combine resuls into a table }
+\NormalTok{race}\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\StringTok{"Total"}\NormalTok{, }\StringTok{"AIAN"}\NormalTok{, }\StringTok{"Asian"}\NormalTok{, }\StringTok{"Black"}\NormalTok{, }\StringTok{"NHPI"}\NormalTok{, }\StringTok{"White"}\NormalTok{, }\StringTok{"Hispanic"}\NormalTok{)}
+
+\NormalTok{pop\_size }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\FunctionTok{nrow}\NormalTok{(air\_pollution), }
+              \FunctionTok{sum}\NormalTok{(air\_pollution}\SpecialCharTok{$}\NormalTok{race }\SpecialCharTok{==} \StringTok{"AI"}\NormalTok{), }
+              \FunctionTok{sum}\NormalTok{(air\_pollution}\SpecialCharTok{$}\NormalTok{race }\SpecialCharTok{==} \StringTok{"AS"}\NormalTok{),}
+              \FunctionTok{sum}\NormalTok{(air\_pollution}\SpecialCharTok{$}\NormalTok{race }\SpecialCharTok{==} \StringTok{"BL"}\NormalTok{),}
+              \FunctionTok{sum}\NormalTok{(air\_pollution}\SpecialCharTok{$}\NormalTok{race }\SpecialCharTok{==} \StringTok{"NHPI"}\NormalTok{),}
+              \FunctionTok{sum}\NormalTok{(air\_pollution}\SpecialCharTok{$}\NormalTok{race }\SpecialCharTok{==} \StringTok{"WH"}\NormalTok{),}
+              \FunctionTok{sum}\NormalTok{(air\_pollution}\SpecialCharTok{$}\NormalTok{race }\SpecialCharTok{==} \StringTok{"HIS"}\NormalTok{))}
+
+
+\NormalTok{rds }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(boot.RD.total}\SpecialCharTok{$}\NormalTok{t0, }
+\NormalTok{         boot.RD.ai}\SpecialCharTok{$}\NormalTok{t0,}
+\NormalTok{         boot.RD.as}\SpecialCharTok{$}\NormalTok{t0,}
+\NormalTok{         boot.RD.bl}\SpecialCharTok{$}\NormalTok{t0, }
+\NormalTok{         boot.RD.nhpi}\SpecialCharTok{$}\NormalTok{t0, }
+\NormalTok{         boot.RD.wh}\SpecialCharTok{$}\NormalTok{t0,}
+\NormalTok{         boot.RD.his}\SpecialCharTok{$}\NormalTok{t0) }
+
+\NormalTok{lower\_ci }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(boot.RD.CI.total}\SpecialCharTok{$}\NormalTok{percent[,}\DecValTok{4}\NormalTok{], }
+\NormalTok{              boot.RD.CI.ai}\SpecialCharTok{$}\NormalTok{percent[,}\DecValTok{4}\NormalTok{], }
+\NormalTok{              boot.RD.CI.as}\SpecialCharTok{$}\NormalTok{percent[,}\DecValTok{4}\NormalTok{], }
+\NormalTok{              boot.RD.CI.bl}\SpecialCharTok{$}\NormalTok{percent[,}\DecValTok{4}\NormalTok{], }
+\NormalTok{              boot.RD.CI.nhpi}\SpecialCharTok{$}\NormalTok{percent[,}\DecValTok{4}\NormalTok{], }
+\NormalTok{              boot.RD.CI.wh}\SpecialCharTok{$}\NormalTok{percent[,}\DecValTok{4}\NormalTok{], }
+\NormalTok{              boot.RD.CI.his}\SpecialCharTok{$}\NormalTok{percent[,}\DecValTok{4}\NormalTok{]) }
+
+\NormalTok{upper\_ci }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(boot.RD.CI.total}\SpecialCharTok{$}\NormalTok{percent[,}\DecValTok{5}\NormalTok{], }
+\NormalTok{              boot.RD.CI.ai}\SpecialCharTok{$}\NormalTok{percent[,}\DecValTok{5}\NormalTok{], }
+\NormalTok{              boot.RD.CI.as}\SpecialCharTok{$}\NormalTok{percent[,}\DecValTok{5}\NormalTok{], }
+\NormalTok{              boot.RD.CI.bl}\SpecialCharTok{$}\NormalTok{percent[,}\DecValTok{5}\NormalTok{], }
+\NormalTok{              boot.RD.CI.nhpi}\SpecialCharTok{$}\NormalTok{percent[,}\DecValTok{5}\NormalTok{], }
+\NormalTok{              boot.RD.CI.wh}\SpecialCharTok{$}\NormalTok{percent[,}\DecValTok{5}\NormalTok{], }
+\NormalTok{              boot.RD.CI.his}\SpecialCharTok{$}\NormalTok{percent[,}\DecValTok{5}\NormalTok{])}
+
+\NormalTok{output\_data }\OtherTok{\textless{}{-}} \FunctionTok{data.frame}\NormalTok{(}
+  \AttributeTok{race =}\NormalTok{ race, }
+  \AttributeTok{pop\_size =}\NormalTok{ pop\_size,}
+  \AttributeTok{rds =}\NormalTok{ rds,}
+  \AttributeTok{lower\_ci =}\NormalTok{ lower\_ci,}
+  \AttributeTok{upper\_ci=}\NormalTok{ upper\_ci)}
+
+\NormalTok{output\_data}\SpecialCharTok{$}\NormalTok{race }\OtherTok{\textless{}{-}} \FunctionTok{factor}\NormalTok{(output\_data}\SpecialCharTok{$}\NormalTok{race, }\AttributeTok{levels =}\NormalTok{ race)}
+\NormalTok{output\_data}\SpecialCharTok{$}\NormalTok{rds }\OtherTok{\textless{}{-}} \FunctionTok{round}\NormalTok{(output\_data}\SpecialCharTok{$}\NormalTok{rds, }\DecValTok{4}\NormalTok{)}
+\NormalTok{output\_data}\SpecialCharTok{$}\NormalTok{lower\_ci }\OtherTok{\textless{}{-}} \FunctionTok{round}\NormalTok{(output\_data}\SpecialCharTok{$}\NormalTok{lower\_ci, }\DecValTok{4}\NormalTok{)}
+\NormalTok{output\_data}\SpecialCharTok{$}\NormalTok{upper\_ci }\OtherTok{\textless{}{-}} \FunctionTok{round}\NormalTok{(output\_data}\SpecialCharTok{$}\NormalTok{upper\_ci, }\DecValTok{4}\NormalTok{)}
+
+\NormalTok{output\_data }\CommentTok{\# view in R}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##       race pop_size     rds lower_ci upper_ci
+## 1    Total     5000 -0.0192  -0.0203  -0.0182
+## 2     AIAN      106 -0.0355  -0.0513  -0.0214
+## 3    Asian      883 -0.0082  -0.0095  -0.0069
+## 4    Black      975 -0.0283  -0.0318  -0.0249
+## 5     NHPI      195 -0.0139  -0.0173  -0.0104
+## 6    White     1525 -0.0119  -0.0134  -0.0105
+## 7 Hispanic     1316 -0.0201  -0.0220  -0.0183
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{kable}\NormalTok{(output\_data) }\CommentTok{\# view as a printable table}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{longtable}[]{@{}lrrrr@{}}
+\toprule\noalign{}
+race & pop\_size & rds & lower\_ci & upper\_ci \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+Total & 5000 & -0.0192 & -0.0203 & -0.0182 \\
+AIAN & 106 & -0.0355 & -0.0513 & -0.0214 \\
+Asian & 883 & -0.0082 & -0.0095 & -0.0069 \\
+Black & 975 & -0.0283 & -0.0318 & -0.0249 \\
+NHPI & 195 & -0.0139 & -0.0173 & -0.0104 \\
+White & 1525 & -0.0119 & -0.0134 & -0.0105 \\
+Hispanic & 1316 & -0.0201 & -0.0220 & -0.0183 \\
+\end{longtable}
+
+\subsubsection{Data Visualization}\label{data-visualization}
+
+Use the code below to visualize your results using ggplot()
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Create forest plot}
+\NormalTok{p }\OtherTok{\textless{}{-}} \FunctionTok{ggplot}\NormalTok{(output\_data, }\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ rds, }\AttributeTok{y =}\NormalTok{ race)) }\SpecialCharTok{+}
+  \FunctionTok{geom\_point}\NormalTok{() }\SpecialCharTok{+}
+  \FunctionTok{geom\_errorbarh}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{xmin =}\NormalTok{ lower\_ci, }\AttributeTok{xmax =}\NormalTok{ upper\_ci)) }\SpecialCharTok{+}
+  \FunctionTok{labs}\NormalTok{(}\AttributeTok{title =} \StringTok{"RD Estimates by Race"}\NormalTok{,}
+       \AttributeTok{x =} \StringTok{"Estimate (RD)"}\NormalTok{, }\AttributeTok{y =} \StringTok{"Race"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{theme\_minimal}\NormalTok{() }\SpecialCharTok{+}
+  \FunctionTok{theme}\NormalTok{(}\AttributeTok{plot.title =} \FunctionTok{element\_text}\NormalTok{(}\AttributeTok{hjust =} \FloatTok{0.5}\NormalTok{)) }\SpecialCharTok{+}
+  \FunctionTok{coord\_cartesian}\NormalTok{(}\AttributeTok{xlim =} \FunctionTok{c}\NormalTok{(}\SpecialCharTok{{-}}\NormalTok{.}\DecValTok{06}\NormalTok{, }\FloatTok{0.01}\NormalTok{)) }\SpecialCharTok{+} 
+    \FunctionTok{geom\_vline}\NormalTok{(}\AttributeTok{xintercept =} \DecValTok{0}\NormalTok{, }\AttributeTok{color =} \StringTok{"blue"}\NormalTok{)}
+
+\CommentTok{\# Print or save the plot}
+\FunctionTok{print}\NormalTok{(p)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{Estimating-population-health-impacts-activity_files/figure-latex/visualize results-1.pdf}
+
+\subsubsection{Interpretation}\label{interpretation-1}
+
+Based on the results shown above, there are differences in the
+relationship between black carbon exposure and preterm birth across
+racial groups, as reflected by the varying estimated risk differences.
+It appears that Amerian Indian/Alaska Natives would see the greatest
+reduction in the risk of preterm birth, specifically 4 fewer preterm
+births out of 100 births, if black carbon levels were reduced to
+\textless{}\(0.20 \ mg/m^3\). Meanwhile, Asians would benefit least from
+the reductions in black carbon exposure (1 fewer preterm births out of
+100 births). It is also important to note that the confidence intervals
+for all estimates do not include the null, which indicates that there is
+a protective effect of lowering black carbon among all race/ethnicity
+groups. Several factors could explain why certain racial groups are more
+or less affected by black carbon exposure, such as socioeconomic and
+environmental inequities, biological susceptibility, access to
+healthcare, and stress level.
+
+\end{document}
